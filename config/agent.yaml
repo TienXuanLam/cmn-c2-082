@@ -1,0 +1,22 @@
+# Agent Manifest — AgentRegistry entry point
+id: "CMN-C2-082"
+name: "WebServiceAnomalyDetectionAgent"
+namespace: "cmn"
+version: "1.0.0"
+enabled: true
+category: "Cat 2"
+generation_mode: "llm"
+industry: "CMN"
+
+base_type: "AgentBaseGraph"
+class: "src.graph.graph.AnomalyDetectionGraph"
+required_trust_level: "VERIFIED_EXTERNAL"
+
+# RecommendGenerateNode and MetricsValidateNode's natural-language
+# extraction fallback (NLMetricsExtractionService) both resolve these
+# per-invocation via InvocationContext.from_state(state).secrets.require(...)
+# -- not read at graph-construction time, so the server can still boot
+# without them (real LLM-dependent requests fail closed until provisioned).
+requires:
+  secrets: ["AZURE_OPENAI_API_KEY", "AZURE_OPENAI_ENDPOINT", "AZURE_OPENAI_DEPLOYMENT"]
+  extras: ["openai"]

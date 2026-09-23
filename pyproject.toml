@@ -1,0 +1,38 @@
+[project]
+name = "cmn-c2-082"
+version = "1.0.0"
+description = "WebServiceAnomalyDetectionAgent — AgentCore Template (Cat 2, CMN)"
+requires-python = ">=3.11"
+# agenticstar-agentcore is installed from the package registry --
+# pinned directly here like every other runtime dependency.
+# openai provides AzureOpenAIClient's dependencies (recommendation LLM calls).
+dependencies = [
+    "agenticstar-agentcore[marketplace,openai]==1.0.3",
+    "pyyaml==6.0.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest==9.0.3",
+    "pytest-cov==5.0.0",
+    "pytest-asyncio==1.4.0",
+    "ruff==0.4.4",
+    "mypy==1.10.0",
+]
+
+[build-system]
+requires = ["setuptools==68.0.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+disallow_subclassing_any = false
+
+[[tool.mypy.overrides]]
+module = ["framework.*", "shared.*"]
+ignore_missing_imports = true
